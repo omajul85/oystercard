@@ -14,7 +14,7 @@ class Oystercard
     @balance += amount
   end
 
-  def touch_in
+  def touch_in(station)
     message = "Cannot touch in: balance must be at least #{MINIMUM_FARE}"
     raise message if balance < MINIMUM_FARE
     @in_journey = true
