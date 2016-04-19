@@ -26,14 +26,22 @@ describe Oystercard do
 	end
 
 	describe "#touch_in" do
-		it { is_expected.to respond_to(:touch_in).with(1).argument }
-		xit "responds to being touched in" do
+		before do
 			oystercard.top_up 1
+		end
+		
+		it "stores the entry station" do
+			oystercard.touch_in(station)
+			expect(oystercard.entry_station).to eq station
+		end
+		
+		it "responds to being touched in" do
 			oystercard.touch_in(station)
 			expect(oystercard).to be_in_journey
 		end
 		
-		xit 'will not touch in if below minimum balance' do
+		it 'will not touch in if below minimum balance' do
+			allow(oystercard).to receive(:balance).and_return 0
 			message = "Cannot touch in: balance must be at least #{described_class::MINIMUM_FARE}"
 			expect { oystercard.touch_in(station) }.to raise_error message
 		end
