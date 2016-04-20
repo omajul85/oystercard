@@ -1,7 +1,7 @@
 require "journey"
 
 describe Journey do 
-	subject(:journey) { described_class.new(entry_station: :station) }
+	subject(:journey) { described_class.new(:station) }
 	let(:station) { double :station, zone: 1 }
 
 	describe "initialization" do

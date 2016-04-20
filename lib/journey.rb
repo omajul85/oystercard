@@ -4,8 +4,8 @@ class Journey
   
   attr_reader :entry_station, :exit_station, :complete
   
-  def initialize(entry_station: nil)
-    @entry_station = entry_station
+  def initialize(station)
+    @entry_station = station
     @complete = false
   end
   

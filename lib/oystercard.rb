@@ -1,11 +1,12 @@
+# require 'journey'
+
 class Oystercard
   MAXIMUM_BALANCE = 90
   
   attr_reader :balance, :journeys, :journey
 
-  def initialize(journey)
+  def initialize
     @balance = 0
-    @journey = journey
     @journeys = []
   end
 
@@ -14,10 +15,10 @@ class Oystercard
     @balance += amount
   end
 
-  def touch_in(station)
-    message = "Cannot touch in: balance must be at least #{@journey.class::MINIMUM_FARE}"
-    raise message if balance < @journey.class::MINIMUM_FARE
-    @journey.start(station)
+  def touch_in(station, journey)
+    message = "Cannot touch in: balance must be at least #{journey::MINIMUM_FARE}"
+    raise message if balance < journey::MINIMUM_FARE
+    @journey = journey.new(station)
   end
 
   def touch_out(station)
