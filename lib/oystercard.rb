@@ -1,11 +1,11 @@
 class Oystercard
   MAXIMUM_BALANCE = 90
-  MINIMUM_FARE = 1
   
-  attr_reader :balance, :entry_station, :exit_station, :journeys
+  attr_reader :balance, :journeys, :journey
 
-  def initialize
+  def initialize(journey)
     @balance = 0
+    @journey = journey
     @journeys = []
   end
 
@@ -15,19 +15,15 @@ class Oystercard
   end
 
   def touch_in(station)
-    message = "Cannot touch in: balance must be at least #{MINIMUM_FARE}"
-    raise message if balance < MINIMUM_FARE
-    @entry_station = station
+    message = "Cannot touch in: balance must be at least #{@journey.class::MINIMUM_FARE}"
+    raise message if balance < @journey.class::MINIMUM_FARE
+    @journey.start(station)
   end
 
   def touch_out(station)
-    deduct(MINIMUM_FARE)
-    @exit_station = station
-    @journeys << { entry_station: @entry_station, exit_station: @exit_station }
-  end
-  
-  def in_journey?
-    !!@entry_station
+    deduct(@journey.fare)
+    j = @journey.finish(station)
+    @journeys << j
   end
   
   private

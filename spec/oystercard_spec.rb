@@ -1,23 +1,24 @@
 require 'oystercard'
+require 'journey'
 
 describe Oystercard do
-  subject(:oystercard) { described_class.new }
+  let(:journey) { Journey.new }
+  subject(:oystercard) { described_class.new(journey) }
   let(:entry_station) { double :station }
   let(:exit_station) { double :station }
-  let(:journey) { { entry_station: entry_station, exit_station: exit_station } }
 
   context "when initialized" do
     it "has a balance equals to 0" do
       expect(oystercard.balance).to eq 0
     end
 
-		it "is not in journey" do
-			expect(oystercard).not_to be_in_journey
-		end
-		
-		it "has an empty list of journeys" do
-			expect(oystercard.journeys).to be_empty
-		end
+	it "is not in journey" do
+		expect(oystercard.journey).not_to be_in_journey
+	end
+	
+	it "has an empty list of journeys" do
+		expect(oystercard.journeys).to be_empty
+	end
   end
 
 	describe "#top_up" do
@@ -38,16 +39,16 @@ describe Oystercard do
 		end
 		
 		it "stores the entry station" do
-			expect(oystercard.entry_station).to eq entry_station
+			expect(oystercard.journey.entry_station).to eq entry_station
 		end
 		
 		it "responds to being touched in" do
-			expect(oystercard).to be_in_journey
+			expect(oystercard.journey).to be_in_journey
 		end
 		
 		it 'will not touch in if below minimum balance' do
 			allow(oystercard).to receive(:balance).and_return 0
-			message = "Cannot touch in: balance must be at least #{described_class::MINIMUM_FARE}"
+			message = "Cannot touch in: balance must be at least #{Journey::MINIMUM_FARE}"
 			expect { oystercard.touch_in(entry_station) }.to raise_error message
 		end
 	end
@@ -60,11 +61,11 @@ describe Oystercard do
 		
 		it "stores the exit station" do
 			oystercard.touch_out(exit_station)
-			expect(oystercard.exit_station).to eq exit_station
+			expect(oystercard.journey.exit_station).to eq exit_station
 		end
 		
 		it "reduces the balance by minimum fare" do
-			expect { oystercard.touch_out(exit_station) }.to change{ oystercard.balance }.by -described_class::MINIMUM_FARE
+			expect { oystercard.touch_out(exit_station) }.to change{ oystercard.balance }.by -Journey::MINIMUM_FARE
 		end
 	end
 	
