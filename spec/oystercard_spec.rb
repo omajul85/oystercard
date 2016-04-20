@@ -56,7 +56,7 @@ describe Oystercard do
 	describe "#touch_out" do
 		before do
 			oystercard.top_up 1
-			oystercard.touch_in(exit_station)
+			oystercard.touch_in(entry_station)
 		end
 		
 		it "stores the exit station" do
