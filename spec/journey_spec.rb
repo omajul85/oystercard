@@ -1,9 +1,14 @@
 require "journey"
 
 describe Journey do 
-	subject(:journey) {described_class.new}
+	subject(:journey) { described_class.new(entry_station: :station) }
+	let(:station) { double :station, zone: 1 }
 
 	describe "initialization" do
+		it 'is created with an entry station' do
+      expect(journey.entry_station).to eq :station
+    end
+		
 		it "journey should not be completed" do
 			expect(journey).not_to be_completed
 		end
@@ -14,15 +19,10 @@ describe Journey do
 	end
 	
 	context "given an entry station" do
-	  let(:entry_station) { double :station }
-	  let(:exit_station) { double :station }
-	  
-	  before do
-      journey.start(entry_station)
-    end
-	  
+	 # subject(:journey) { described_class.new(entry_station: station) }
+
 	  it "han an entry station" do
-			expect(journey.entry_station).to eq entry_station	
+			expect(journey.entry_station).to eq :station	
 		end
 		
 		it "returns a penalty fee if no exit station given" do
@@ -30,6 +30,8 @@ describe Journey do
     end
     
     context "and an exit station" do
+      let(:exit_station) { double :station, zone: 1 }
+      
       before do
         journey.finish(exit_station)
       end

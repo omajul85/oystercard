@@ -2,14 +2,16 @@ class Journey
   MINIMUM_FARE = 1
   PENALTY_FEE = 6
   
-  attr_reader :entry_station, :exit_station
+  attr_reader :entry_station, :exit_station, :complete
   
-  def start(station)
-    @entry_station = station
+  def initialize(entry_station: nil)
+    @entry_station = entry_station
+    @complete = false
   end
   
   def finish(station)
     @exit_station = station
+    @complete = true
     self
   end
   
@@ -17,12 +19,7 @@ class Journey
     completed? ? MINIMUM_FARE : PENALTY_FEE
   end
   
-  def in_journey?
-    !!@entry_station
-  end
-  
   def completed?
-    !!(entry_station && exit_station)
+    complete
   end
-  
 end
