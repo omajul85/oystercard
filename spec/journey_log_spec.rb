@@ -9,18 +9,18 @@ describe JourneyLog do
   
   describe "#start" do
     it 'starts and records a journey' do
-      journey_log.start(entry_station)
+      journey_log.start_journey(entry_station)
       expect(journey_log.journeys).to include(journey)
     end
   end
   
   describe "#finish" do
     before do 
-      journey_log.start(entry_station)
+      journey_log.start_journey(entry_station)
     end
     
     it 'finish a journey' do
-      journey_log.finish(exit_station)
+      journey_log.finish_journey(exit_station)
       expect(journey_log.journeys).to include(journey)
     end
   end
@@ -28,14 +28,14 @@ describe JourneyLog do
   describe "#journeys" do 
     before do 
       5.times {
-        journey_log.start(entry_station)
-        journey_log.finish(exit_station)
+        journey_log.start_journey(entry_station)
+        journey_log.finish_journey(exit_station)
       }
     end
     
     it "prints the list of journeys" do 
       journey_log.journeys
-      # expect(journey_log.journeys).to be_a(Array)
+      expect(journey_log.journeys).to be_a(Array)
     end
   end
 end
