@@ -57,7 +57,6 @@ describe Oystercard do
 		end
 		
 		it "reduces the balance by minimum fare" do
-			p oystercard.journey
 			expect { oystercard.touch_out(exit_station) }.to change{ oystercard.balance }.by -(Journey::MINIMUM_FARE)
 		end
 	end
