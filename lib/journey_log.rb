@@ -8,14 +8,15 @@ class JourneyLog
   def start_journey(station)
     @current_journey = journey_class.new
     @current_journey.start(station)
-    @fare = @current_journey.fare
   end
 
   def finish_journey(station)
     @current_journey ||= @journey_class.new
-    @journeys << @current_journey.finish(station)
+    aux = @current_journey.finish(station).dup
+    @journeys << aux
     @fare = @current_journey.fare
     @current_journey = nil
+    aux
   end
 
   def journeys

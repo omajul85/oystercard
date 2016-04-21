@@ -1,11 +1,10 @@
 require 'journey_log'
+require 'journey'
 
 describe JourneyLog do
-  let(:journey) { double(:journey, entry_station: entry_station, completed?: false, start: entry_station, finish: nil, fare: 1) }
-  let(:journey_class) { double(:journey_class, new: journey, start_journey: entry_station, finish_journey: self) }
   let(:entry_station) { double(:station, name: "A", zone: 1) }
   let(:exit_station) { double(:station, name: "B", zone: 1) }
-  subject(:journey_log) { described_class.new(journey_class) }
+  subject(:journey_log) { described_class.new(Journey) }
 
   describe "#initialize" do
     it "has an empty list of journeys" do
@@ -25,8 +24,7 @@ describe JourneyLog do
     end
 
     it 'finish a journey' do
-      allow(journey).to receive(:finish).with(exit_station).and_return(journey)
-      journey_log.finish_journey(exit_station)
+      journey = journey_log.finish_journey(exit_station)
       expect(journey_log.journeys).to include(journey)
     end
 

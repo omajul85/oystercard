@@ -27,11 +27,10 @@ describe Oystercard do
 	describe "#touch_in" do
 		before do
 			oystercard.top_up 1
-			oystercard.touch_in(entry_station, journey)
 		end
 
 		it "stores the entry station" do
-			expect(oystercard.journey.entry_station).to eq entry_station
+			expect(oystercard.touch_in(entry_station, journey)).to eq entry_station
 		end
 
 		it 'will not touch in if below minimum balance' do
