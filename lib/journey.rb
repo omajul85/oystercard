@@ -6,12 +6,10 @@ class Journey
   
   def initialize(station)
     @entry_station = station
-    @complete = false
   end
   
   def finish(station)
     @exit_station = station
-    @complete = true
     self
   end
   
@@ -20,6 +18,6 @@ class Journey
   end
   
   def completed?
-    complete
+    !!(entry_station && exit_station)
   end
 end
