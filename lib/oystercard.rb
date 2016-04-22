@@ -1,9 +1,8 @@
-# require 'journey'
-
 class Oystercard
   MAXIMUM_BALANCE = 90
+  MINIMUM_FARE = 1
 
-  attr_reader :balance, :journeys, :journey_log
+  attr_reader :balance, :journey_log
 
   def initialize
     @balance = 0
@@ -15,15 +14,15 @@ class Oystercard
   end
 
   def touch_in(station, journey_log)
-    message = "Cannot touch in: balance must be at least #{journey::MINIMUM_FARE}"
-    raise message if balance < journey::MINIMUM_FARE
-    @journey_log = journey_log.new
+    message = "Cannot touch in: balance must be at least #{MINIMUM_FARE}"
+    raise message if balance < MINIMUM_FARE
+    @journey_log = journey_log.new(Journey)
     @journey_log.start_journey(station)
   end
 
   def touch_out(station)
-    @journeys << @journey.finish_journey(station)
-    deduct(@journey.fare) ######
+    aux_journey = @journey_log.finish_journey(station)
+    deduct(aux_journey.fare)
   end
 
   private

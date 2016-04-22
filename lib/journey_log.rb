@@ -6,28 +6,23 @@ class JourneyLog
   end
 
   def start_journey(station)
-    @current_journey = journey_class.new
+    add(@current_journey = journey_class.new)
     @current_journey.start(station)
   end
 
   def finish_journey(station)
-    @current_journey ||= @journey_class.new
-    aux = @current_journey.finish(station).dup
-    @journeys << aux
-    @fare = @current_journey.fare
-    @current_journey = nil
-    aux
+    add(@current_journey = journey_class.new) unless @current_journey
+    @current_journey.finish(station)
   end
 
   def journeys
     @journeys.dup
   end
 
-  def get_fare
-    @fare
-  end
-
   private
     attr_reader :journey_class, :fare
-
+    
+    def add(journey)
+      @journeys << journey
+    end
 end

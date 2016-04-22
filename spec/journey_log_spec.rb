@@ -27,11 +27,6 @@ describe JourneyLog do
       journey = journey_log.finish_journey(exit_station)
       expect(journey_log.journeys).to include(journey)
     end
-
-    it "calculate the fare" do
-      journey_log.finish_journey(exit_station)
-      expect(journey_log.get_fare).to eq 1
-    end
   end
 
   describe "#journeys" do
