@@ -4,7 +4,8 @@ class Oystercard
 
   attr_reader :balance, :journey_log
 
-  def initialize
+  def initialize(journey_log: JourneyLog.new(Journey))
+    @journey_log = journey_log
     @balance = 0
   end
 
@@ -13,15 +14,14 @@ class Oystercard
     @balance += amount
   end
 
-  def touch_in(station, journey_log)
+  def touch_in(station)
     message = "Cannot touch in: balance must be at least #{MINIMUM_FARE}"
     raise message if balance < MINIMUM_FARE
-    @journey_log = journey_log.new(Journey)
-    @journey_log.start_journey(station)
+    journey_log.start_journey(station)
   end
 
   def touch_out(station)
-    aux_journey = @journey_log.finish_journey(station)
+    aux_journey = journey_log.finish_journey(station)
     deduct(aux_journey.fare)
   end
 
