@@ -14,7 +14,12 @@ class Journey
   end
 
   def fare
-    completed? ? MINIMUM_FARE : PENALTY_FEE
+    return PENALTY_FEE unless completed?
+    if entry_station.zone == exit_station.zone
+      MINIMUM_FARE
+    else
+      (entry_station.zone - exit_station.zone).abs
+    end
   end
 
   def completed?

@@ -13,11 +13,17 @@ class JourneyLog
 
   def finish_journey(station)
     add(@current_journey = journey_class.new) unless @current_journey
-    @current_journey.finish(station)
+    dummy = @current_journey.finish(station).dup
+    reset
+    dummy
   end
 
   def journeys
     @journeys.dup
+  end
+  
+  def list
+    journeys.each { |j| puts "Entry: #{j.entry_station}, Exit: #{j.exit_station}" }
   end
 
   private
@@ -25,5 +31,9 @@ class JourneyLog
     
     def add(journey)
       @journeys << journey
+    end
+    
+    def reset
+      @current_journey = nil
     end
 end
